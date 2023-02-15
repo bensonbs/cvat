@@ -22,6 +22,12 @@ nuctl deploy \
 --volume `pwd`/serverless/common:/opt/nuclio/common \
 --platform local --resource-limit nvidia.com/gpu=1
 
+nuctl deploy \
+--project-name cvat \
+--path serverless/pytorch/ultralytics/yolov5_HL/nuclio/ \
+--volume `pwd`/serverless/common:/opt/nuclio/common \
+--platform local --resource-limit nvidia.com/gpu=1
+
 docker-compose \
     -f docker-compose.yml \
     -f docker-compose.override.yml \

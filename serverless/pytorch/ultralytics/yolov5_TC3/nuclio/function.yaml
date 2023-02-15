@@ -1,8 +1,8 @@
 metadata:
-  name: yolov5-TC3-protective-clothing
+  name: TC3-protective-clothing
   namespace: cvat
   annotations:
-    name: YOLOv5 TC3 protective clothing
+    name: TC3 protective clothing
     type: detector
     framework: pytorch
     spec: |
@@ -16,7 +16,7 @@ metadata:
       ]
 
 spec:
-  description: YOLO v5 for 防護護具辨識
+  description: TC3 氣化 防護護具辨識
   runtime: 'python:3.6'
   handler: main:handler
   eventTimeout: 30s
