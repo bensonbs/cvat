@@ -1,0 +1,53 @@
+metadata:
+  name: TC3-protective-clothing
+  namespace: cvat
+  annotations:
+    name: TC3 protective clothing
+    type: detector
+    framework: pytorch
+    spec: |
+      [
+        { "id": 0, "name": "illegal" },
+        { "id": 1, "name": "safety" },
+        { "id": 2, "name": "cone" },
+        { "id": 3, "name": "truck" },
+        { "id": 4, "name": "chemical" },
+        { "id": 5, "name": "filling" }
+      ]
+
+spec:
+  description: TC3 氣化 防護護具辨識
+  runtime: 'python:3.6'
+  handler: main:handler
+  eventTimeout: 30s
+  build:
+    image: cvat/ultralytics-yolov5
+    baseImage: ultralytics/yolov5:latest
+
+    directives:
+      preCopy:
+        - kind: USER
+          value: root
+        - kind: RUN
+          value: apt update && apt install --no-install-recommends -y libglib2.0-0
+        - kind: WORKDIR
+          value: /opt/nuclio
+
+  triggers:
+    myHttpTrigger:
+      maxWorkers: 1
+      kind: 'http'
+      workerAvailabilityTimeoutMilliseconds: 10000
+      attributes:
+        maxRequestBodySize: 33554432 # 32MB
+
+  resources:
+    limits:
+      nvidia.com/gpu: 1
+
+  platform:
+    attributes:
+      restartPolicy:
+        name: always
+        maximumRetryCount: 3
+      mountMode: volume
